@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  transform_base64:
+    container_name: transform_base64
+    build: transform_base64
+    image: kaneai/transform_base64:latest
+    ports:
+      - "8001:8001"
+    networks:
+      - default
+
+networks:
+  default:
+    external:
+      name:
+        microservice_network
+
