@@ -1,10 +1,12 @@
 version: '3'
 
 services:
-  transform_base64:
+  base64_transform:
+    build: base64_transform
     container_name: transform_base64
-    build: transform_base64
     image: kaneai/transform_base64:latest
+    volumes:
+      - ./base64_transform:/app
     ports:
       - "8001:8001"
     networks:

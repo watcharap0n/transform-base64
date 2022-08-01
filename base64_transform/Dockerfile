@@ -13,4 +13,4 @@ RUN pip install -r /app/requirements.txt \
 
 COPY /app/ /app
 
-CMD ["uvicorn", "app.main:app", "--proxy-headers", "--host", "0.0.0.0", "--port", "8002"]
+CMD ["uvicorn", "app.main:app", "--proxy-headers", "--host", "0.0.0.0", "--port", "8001"]
