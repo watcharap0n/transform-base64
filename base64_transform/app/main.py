@@ -1,5 +1,4 @@
 import httpx
-import os
 import random
 import hashlib
 import hmac
