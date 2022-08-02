@@ -3,12 +3,26 @@ from typing import Union
 from fastapi import FastAPI, UploadFile, HTTPException, status
 from mangum import Mangum
 from fastapi.responses import HTMLResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     version='1.0.0',
     docs_url='/base64/docs',
     redoc_url='/base64/redoc',
     openapi_url='/base64/openapi.json',
+)
+
+origins = [
+    "http://localhost:3000",
+    "http://localhost:8080",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 handler = Mangum(app)
@@ -23,7 +37,11 @@ async def index():
     )
 
 
-@app.post("/files/pdf/base64", summary='Response file to base64')
+@app.post(
+    "/files/pdf/base64",
+    summary='Encode base64',
+    description='encode file any to base64.',
+)
 async def create_file(
         file: Union[UploadFile, None] = None
 ):
