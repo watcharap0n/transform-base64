@@ -1,6 +1,11 @@
+import httpx
+import os
+import random
+import hashlib
+import hmac
 import base64
-from typing import Union
-from fastapi import FastAPI, UploadFile, HTTPException, status
+from typing import Union, Optional
+from fastapi import FastAPI, UploadFile, HTTPException, status, Body
 from mangum import Mangum
 from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,6 +18,7 @@ app = FastAPI(
 )
 
 origins = [
+    "http://localhost:80",
     "http://localhost:3000",
     "http://localhost:8080",
 ]
@@ -54,3 +60,38 @@ async def create_file(
         "fileb_content_type": file.content_type,
         'base64': encoded_string
     }
+
+
+def random_string(num: int):
+    possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    texts = ""
+    for i in range(num):
+        text = random.choice(possible)
+        texts += text
+    return texts
+
+
+def sign_string(key_b64, to_sign):
+    key = base64.b64decode(key_b64)
+    signed_hmac_sha256 = hmac.HMAC(key, to_sign.encode(), hashlib.sha256)
+    digest = signed_hmac_sha256.digest()
+    return base64.b64encode(digest).decode()
+
+
+@app.post('/executed/exkasan')
+async def executed_exkasan(payload: Optional[dict] = Body(None)):
+    signature = payload.get('signature')
+    url = "https://stamp-kong.exkasan.com/jds-rest/pdf/verify/all"
+    payload = {
+        "pdfPassword": None,
+        "pdf": "",
+        "reqRefNo": "1659405914"
+    }
+    headers = {
+        'X-Signature': signature,
+        'apikey': 'kGTptzcT#W5h9VQW',
+        'Content-Type': 'application/json',
+    }
+    async with httpx.AsyncClient() as client:
+        tasks = await client.post(url=url, json=payload, headers=headers)
+    return tasks.json()
