@@ -7,9 +7,9 @@ from app.api import signature
 
 app = FastAPI(
     version='1.0.0',
-    docs_url='/v1/api/base64/docs',
-    redoc_url='/v1/api/base64/redoc',
-    openapi_url='/v1/api/base64/openapi.json',
+    docs_url='/api/base64/docs',
+    redoc_url='/api/base64/redoc',
+    openapi_url='/api/base64/openapi.json',
 )
 
 origins = [
