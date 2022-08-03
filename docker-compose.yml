@@ -2,7 +2,7 @@ version: '3'
 
 services:
   base64_transform:
-    build: base64_transform
+    build: signature_service
     container_name: transform_base64
     image: kaneai/transform_base64:latest
     volumes:
@@ -11,6 +11,8 @@ services:
       - "8001:8001"
     networks:
       - default
+    env_file:
+      - .env
 
 networks:
   default:
