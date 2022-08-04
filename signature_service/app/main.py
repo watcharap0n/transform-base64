@@ -1,3 +1,4 @@
+import logging
 from fastapi import FastAPI
 from mangum import Mangum
 from fastapi.responses import HTMLResponse
@@ -27,6 +28,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+log = logging.getLogger("uvicorn")
 handler = Mangum(app)
 
 description = """
@@ -79,3 +81,17 @@ def custom_openapi():
 
 
 app.openapi = custom_openapi
+
+
+@app.on_event("startup")
+async def startup_event():
+    """Start up event for FastAPI application."""
+    log.info("Starting up server base64")
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    """Shutdown event for FastAPI application."""
+    with open("log.txt", mode="a") as create_log:
+        create_log.write("Application shutdown server base64")
+    log.info("Shutting down...")
