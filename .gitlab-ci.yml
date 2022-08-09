@@ -12,7 +12,7 @@ docker_build:
   script:
     - docker login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
     - COMMIT_TIME=$(date +"%Y%m%dT%H%M%S")
-    - docker build -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest client
+    - docker build -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest signature_service
     - docker tag ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest ${CI_REGISTRY}/${CI_PROJECT_PATH}:${COMMIT_TIME}
     - docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest
     - docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}:${COMMIT_TIME}
