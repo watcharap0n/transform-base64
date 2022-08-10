@@ -5,18 +5,18 @@ services:
     build: signature_service
     container_name: signature_service
     image: kaneai/signature_service:latest
-    volumes:
-      - ./signature_service:/app
+    # volumes:
+    #   - ./signature_service:/app
     ports:
       - "8001:8001"
-    networks:
-      - default
+    # networks:
+    #   - default
     env_file:
       - .env
 
-networks:
-  default:
-    external:
-      name:
-        microservice_network
+# networks:
+#   default:
+#     external:
+#       name:
+#         microservice_network
 

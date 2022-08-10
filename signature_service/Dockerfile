@@ -1,6 +1,6 @@
 FROM python:3.9-slim
 
-WORKDIR /app
+WORKDIR /
 
 COPY ./requirements.txt /app/requirements.txt
 
@@ -11,6 +11,6 @@ RUN apt-get update \
 RUN pip install -r /app/requirements.txt \
     && rm -rf /root/.cache/pip
 
-COPY /app/ /app
+COPY app /app
 
 CMD ["uvicorn", "app.main:app", "--proxy-headers", "--host", "0.0.0.0", "--port", "8080"]
