@@ -14,6 +14,7 @@ app = FastAPI(
 )
 
 origins = [
+    "https://validate-stg.exkasan.com/",
     "http://localhost:80",
     "http://localhost:3000",
     "http://localhost:8000"
